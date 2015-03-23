@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.GetTweetsJob", "NewCC2015.AzureSearch.GetTweetsJob\NewCC2015.AzureSearch.GetTweetsJob.csproj", "{559CEB0D-FF6E-4505-8232-ADDF3B5F41C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.ProcessTweetsJob", "NewCC2015.AzureSearch.ProcessTweetsJob\NewCC2015.AzureSearch.ProcessTweetsJob.csproj", "{6E4B6F61-DBE2-4A2C-9946-B0A9D6FA9829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.Core", "NewCC2015.AzureSearch.Core\NewCC2015.AzureSearch.Core.csproj", "{51355A78-0D6D-4511-A1C0-A547589D297B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.CreateSearchIndex", "NewCC2015.AzureSearch.CreateSearchIndex\NewCC2015.AzureSearch.CreateSearchIndex.csproj", "{12626591-D967-409A-A1F0-A502F02DDBE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.ClearQueueWebJob", "NewCC2015.AzureSearch.ClearQueueWebJob\NewCC2015.AzureSearch.ClearQueueWebJob.csproj", "{F76DAC0E-B685-439E-87AA-9E843F1374A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewCC2015.AzureSearch.TestConsole", "NewCC2015.AzureSearch.TestConsole\NewCC2015.AzureSearch.TestConsole.csproj", "{6D0AA3AC-9D0E-413F-A93D-8BFC7EDD5F62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{559CEB0D-FF6E-4505-8232-ADDF3B5F41C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559CEB0D-FF6E-4505-8232-ADDF3B5F41C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559CEB0D-FF6E-4505-8232-ADDF3B5F41C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559CEB0D-FF6E-4505-8232-ADDF3B5F41C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E4B6F61-DBE2-4A2C-9946-B0A9D6FA9829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E4B6F61-DBE2-4A2C-9946-B0A9D6FA9829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E4B6F61-DBE2-4A2C-9946-B0A9D6FA9829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E4B6F61-DBE2-4A2C-9946-B0A9D6FA9829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51355A78-0D6D-4511-A1C0-A547589D297B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51355A78-0D6D-4511-A1C0-A547589D297B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51355A78-0D6D-4511-A1C0-A547589D297B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51355A78-0D6D-4511-A1C0-A547589D297B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12626591-D967-409A-A1F0-A502F02DDBE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12626591-D967-409A-A1F0-A502F02DDBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12626591-D967-409A-A1F0-A502F02DDBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12626591-D967-409A-A1F0-A502F02DDBE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F76DAC0E-B685-439E-87AA-9E843F1374A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F76DAC0E-B685-439E-87AA-9E843F1374A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F76DAC0E-B685-439E-87AA-9E843F1374A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F76DAC0E-B685-439E-87AA-9E843F1374A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D0AA3AC-9D0E-413F-A93D-8BFC7EDD5F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D0AA3AC-9D0E-413F-A93D-8BFC7EDD5F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D0AA3AC-9D0E-413F-A93D-8BFC7EDD5F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D0AA3AC-9D0E-413F-A93D-8BFC7EDD5F62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
