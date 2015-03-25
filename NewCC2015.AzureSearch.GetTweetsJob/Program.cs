@@ -45,7 +45,7 @@ namespace NewCC2015.AzureSearch.GetTweetsJob
                 {
                     GetTweets();
 
-                    await Task.Delay(TimeSpan.FromMinutes(90));
+                    await Task.Delay(TimeSpan.FromMinutes(10));
                 }
             }).Wait();
         }
@@ -63,7 +63,6 @@ namespace NewCC2015.AzureSearch.GetTweetsJob
                      where s.Type == SearchType.Search &&
                            s.Query == "#MarchMadness" &&
                            s.SinceID == _lastStatusId &&
-                           s.ResultType == ResultType.Popular &&
                            s.Count == 100
                      select s).SingleOrDefault();
 
