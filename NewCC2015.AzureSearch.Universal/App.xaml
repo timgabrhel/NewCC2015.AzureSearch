@@ -1,0 +1,18 @@
+﻿<Application
+    x:Class="NewCC2015.AzureSearch.Universal.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:NewCC2015.AzureSearch.Universal.Converters"
+    xmlns:local="using:NewCC2015.AzureSearch.Universal">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <x:String x:Key="SearchServiceName">newccsearch</x:String>
+            <x:String x:Key="SearchIndexName">mmtweets</x:String>
+            <x:String x:Key="SearchApiKey">19AC47D23B0F0826EE32F4B8E950B235</x:String>
+            
+            <c:StringToColorConverter x:Key="StringToColorConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+    
+</Application>

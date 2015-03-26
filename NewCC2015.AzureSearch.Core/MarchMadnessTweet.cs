@@ -24,7 +24,7 @@ namespace NewCC2015.AzureSearch.Core
 
         public long Following { get; set; }
 
-        public long Retweets { get; set; }
+        public long? Retweets { get; set; }
 
         public long Statuses { get; set; }
 
