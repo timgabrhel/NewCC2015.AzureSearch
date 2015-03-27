@@ -27,10 +27,10 @@
                     <Image Source="Assets/Azure.png" Width="100"
                            HorizontalAlignment="Center" />
 
-                    <SearchBox x:Name="txtSearch" VerticalAlignment="Top" IsValidationIndicatorEnabled="True" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 0 20 0"
-                               PlaceholderText="enter a search string" Tapped="txtSearch_Tapped" />
+                    <SearchBox VerticalAlignment="Top" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 0"
+                               PlaceholderText="enter a search string" Tapped="SearchBox_Tapped" />
 
-                    <StackPanel Margin="20 0 20 0">
+                    <StackPanel Margin="20 0">
                         <TextBlock Text="{Binding SearchResult}" Foreground="White" FontStyle="Italic" />
                         <TextBlock Text="{Binding SearchExecutionTime}" Foreground="White" />
                     </StackPanel>

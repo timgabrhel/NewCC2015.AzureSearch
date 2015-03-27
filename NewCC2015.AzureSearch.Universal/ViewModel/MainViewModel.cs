@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using GabrhelDigital.Universal.Core.Binding;
 using Microsoft.Azure.Search.Models;
@@ -135,6 +136,12 @@ namespace NewCC2015.AzureSearch.Universal.ViewModel
         private void Search()
         {
             IsBusy = true;
+
+            if (string.IsNullOrWhiteSpace(SearchString))
+            {
+                SearchString = "*";
+            }
+
             var client = new AzureSearchClient();
 
             // after we load the search results & set the facet collections, two way binding will clear the currently selected facet.

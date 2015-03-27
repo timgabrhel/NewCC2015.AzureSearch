@@ -35,7 +35,7 @@ namespace NewCC2015.AzureSearch.Universal
             this.InitializeComponent();
         }
 
-        private async void txtSearch_Tapped(object sender, TappedRoutedEventArgs args)
+        private async void SearchBox_Tapped(object sender, TappedRoutedEventArgs e)
         {
             await Search();
         }
@@ -58,13 +58,6 @@ namespace NewCC2015.AzureSearch.Universal
             if (_searched == false)
             {
                 _searched = true;
-
-                if (string.IsNullOrWhiteSpace(viewModel.SearchString))
-                {
-                    var dialog = new MessageDialog("You must specify a search string");
-                    await dialog.ShowAsync();
-                    return;
-                }
 
                 // work around because the search box doesn't have command binding
                 viewModel.SearchCommand.Execute(null);
