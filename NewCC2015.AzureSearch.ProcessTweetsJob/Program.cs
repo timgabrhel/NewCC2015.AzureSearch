@@ -29,13 +29,16 @@ namespace NewCC2015.AzureSearch.ProcessTweetsJob
         {
             try
             {
-                var indexClient = searchClient.Indexes.GetClient(searchIndex);
-                await indexClient.Documents.IndexAsync(IndexBatch.Create(IndexAction.Create(IndexActionType.MergeOrUpload, tweet)));
+                // ptj1
+
             }
             catch (IndexBatchException ex)
             {
-                // todo - requeue, backoff retry?
+                // Sometimes when your Search service is under load, indexing will fail for some of the documents in
+                // the batch. Depending on your application, you can take compensating actions like delaying and
+                // retrying. For this simple demo, we just log the failed document keys and continue.
                 Console.Error.WriteLine("Index batch exception: " + ex);
+                throw;
             }
             catch (Exception ex)
             {

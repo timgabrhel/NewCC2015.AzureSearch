@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToTwitter;
 using Microsoft.Azure;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using NewCC2015.AzureSearch.Core;
@@ -45,7 +42,8 @@ namespace NewCC2015.AzureSearch.GetTweetsJob
                 {
                     GetTweets();
 
-                    await Task.Delay(TimeSpan.FromMinutes(10));
+                    // artifical throttle to prevent overfilling search account
+                    await Task.Delay(TimeSpan.FromMinutes(5));
                 }
             }).Wait();
         }
@@ -106,7 +104,7 @@ namespace NewCC2015.AzureSearch.GetTweetsJob
             var tweet = new MarchMadnessTweet()
             {
                 TweetId = status.StatusID.ToString(),
-                Source = GetSourceNameFromAnchor(status.Source),
+                Source = ExtractSourceNameFromAnchor(status.Source),
                 Text = status.Text,
                 CreatedAt = status.CreatedAt,
                 ScreenName = status.User.ScreenNameResponse,
@@ -124,7 +122,7 @@ namespace NewCC2015.AzureSearch.GetTweetsJob
             await _queue.AddMessageAsync(message);
         }
 
-        private static string GetSourceNameFromAnchor(string source)
+        private static string ExtractSourceNameFromAnchor(string source)
         {
             return source.Substring(source.IndexOf(">", StringComparison.Ordinal) + 1, source.IndexOf("</a>", StringComparison.Ordinal) - source.IndexOf(">", StringComparison.Ordinal) - 1);
         }

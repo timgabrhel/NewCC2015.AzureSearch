@@ -9,12 +9,11 @@ using Microsoft.Azure.Search.Models;
 
 namespace NewCC2015.AzureSearch.CreateSearchIndex
 {
-    /*
-     * Using the Azure Search .NET SDK
-     * http://azure.microsoft.com/en-us/documentation/articles/search-howto-dotnet-sdk/
-     */
     class Program
     {
+        // csi0 - app settings
+
+        // csi1
         private static readonly string searchServiceName = ConfigurationManager.AppSettings["SearchServiceName"];
         private static readonly string searchIndex = ConfigurationManager.AppSettings["SearchIndexName"];
         private static readonly string searchApiKey = ConfigurationManager.AppSettings["SearchApiKey"];
@@ -31,11 +30,13 @@ namespace NewCC2015.AzureSearch.CreateSearchIndex
 
         static async Task DropAndCreateIndex()
         {
+            // csi2
             if (await searchClient.Indexes.ExistsAsync(searchIndex))
             {
-                await searchClient.Indexes.DeleteAsync(searchIndex);
+                //await searchClient.Indexes.DeleteAsync(searchIndex);
             }
 
+            // csi3
             var index = new Index()
             {
                 Name = searchIndex,
@@ -53,10 +54,20 @@ namespace NewCC2015.AzureSearch.CreateSearchIndex
                     new Field("retweets", DataType.Int64){ IsKey = false, IsSearchable = false, IsFilterable = true, IsSortable = true, IsRetrievable = true, IsFacetable = true},
                     new Field("statuses", DataType.Int64){ IsKey = false, IsSearchable = false, IsFilterable = true, IsSortable = true, IsRetrievable = true, IsFacetable = true},
                     new Field("createdAt", DataType.DateTimeOffset){ IsKey = false, IsSearchable = false, IsFilterable = true, IsSortable = true, IsRetrievable = true, IsFacetable = true},
+                },
+                Suggesters = new List<Suggester>()
+                {
+                    new Suggester()
+                    {
+                        Name = "textSuggester",
+                        SearchMode = SuggesterSearchMode.AnalyzingInfixMatching,
+                        SourceFields = new [] {"text"}
+                    }
                 }
             };
 
-            await searchClient.Indexes.CreateAsync(index);
+            // csi4
+            await searchClient.Indexes.CreateOrUpdateAsync(index);
         }
     }
 }

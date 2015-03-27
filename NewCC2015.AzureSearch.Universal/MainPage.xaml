@@ -27,8 +27,14 @@
                     <Image Source="Assets/Azure.png" Width="100"
                            HorizontalAlignment="Center" />
 
-                    <SearchBox VerticalAlignment="Top" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 0"
-                               PlaceholderText="enter a search string" Tapped="SearchBox_Tapped" />
+                    <SearchBox VerticalAlignment="Top"
+                               QueryText="{Binding SearchString, Mode=TwoWay}" 
+                               Margin="20 0"
+                               SearchHistoryEnabled="False"  
+                               ChooseSuggestionOnEnter="True"
+                               PlaceholderText="enter a search string" 
+                               Tapped="SearchBox_Tapped" 
+                               SuggestionsRequested="SearchBox_SuggestionsRequested" />
 
                     <StackPanel Margin="20 0">
                         <TextBlock Text="{Binding SearchResult}" Foreground="White" FontStyle="Italic" />
@@ -171,7 +177,7 @@
                     </GridView.ItemContainerStyle>
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="#FF0072C6" BorderThickness="1" Width="300" Height="230">
+                            <Border BorderBrush="#FF0072C6" BorderThickness="1" Width="300" Height="250">
                                 <StackPanel Margin="10" HorizontalAlignment="Left" Background="White" VerticalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="{Binding Document.ProfileImageUrl}" Width="60" Height="60" HorizontalAlignment="Left" />

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
+using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -86,6 +87,41 @@ namespace NewCC2015.AzureSearch.Universal
                 // reset back to false for future clicks
                 _cleared = false;
             }
+        }
+
+        private async void SearchBox_SuggestionsRequested(SearchBox sender, SearchBoxSuggestionsRequestedEventArgs args)
+        {
+            //http://azure.microsoft.com/blog/2015/01/20/azure-search-how-to-add-suggestions-auto-complete-to-your-search-applications/
+            // require at least 3 characters
+            // http://stackoverflow.com/questions/20092587/win-8-1-searchbox-binding-suggestions
+
+            var viewModel = DataContext as MainViewModel;
+            if (viewModel == null) return;
+
+            if (viewModel.SearchString == null || viewModel.SearchString.Length < 3) return;
+
+            var deferral = args.Request.GetDeferral();
+
+            try
+            {
+                var suggestions = await viewModel.SearchSuggest();
+
+                args.Request.SearchSuggestionCollection.AppendQuerySuggestions(suggestions.Select(s => s.Text));
+                args.Request.SearchSuggestionCollection.AppendSearchSeparator("Top Tweeters");
+
+                var imageUri = new Uri("ms-appx:///Assets/Azure.png");
+                var imageRef = RandomAccessStreamReference.CreateFromUri(imageUri);
+
+                foreach (var suggestResult in suggestions)
+                {
+                    args.Request.SearchSuggestionCollection.AppendResultSuggestion(suggestResult.Document.ScreenName, suggestResult.Document.Followers + " followers", "", imageRef, "");
+                }
+            }
+            finally
+            {
+                deferral.Complete();
+            }
+
         }
     }
 }
