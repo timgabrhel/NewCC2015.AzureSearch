@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Documents;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using NewCC2015.AzureSearch.Core;
+using NewCC2015.AzureSearch.Universal.Model;
 
 namespace NewCC2015.AzureSearch.Universal
 {
@@ -28,14 +29,21 @@ namespace NewCC2015.AzureSearch.Universal
             searchClient = new SearchServiceClient(searchServiceName, searchCredentials);
         }
 
-        public async Task<DocumentSearchResponse<T>> Search<T>(string query) where T : class 
+        public async Task<DocumentSearchResponse<T>> Search<T>(string searchText, List<string> facets, string field) where T : class 
         {
             var indexClient = searchClient.Indexes.GetClient(searchIndex);
 
             var sp = new SearchParameters();
-            sp.Facets = new[] { "source", "retweets", "following", "followers,values:1000|5000|10000|50000|100000" };
-
-            return await indexClient.Documents.SearchAsync<T>(query, sp);
+            sp.SearchFields = new[] {field};
+            sp.Facets = new[]
+            {
+                "source",
+                "retweets,values:5|15|50|100",
+                "following,values:25|50|100|200|500|1000|5000|10000",
+                "followers,values:50|100|250|500|1000|2500|5000|10000|25000|50000|100000|500000"
+            };
+            
+            return await indexClient.Documents.SearchAsync<T>(searchText, sp);
         }
     }
 }

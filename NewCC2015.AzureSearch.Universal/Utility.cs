@@ -26,5 +26,10 @@ namespace NewCC2015.AzureSearch.Universal
             }
             return value;
         }
+
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> items)
+        {
+            return new ObservableCollection<T>(items);
+        }
     }
 }

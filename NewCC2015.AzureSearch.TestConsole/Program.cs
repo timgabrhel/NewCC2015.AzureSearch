@@ -29,6 +29,7 @@ namespace NewCC2015.AzureSearch.TestConsole
                 sp.Facets = new[] { "source", "retweets", "following", "followers,values:1000|5000|10000|50000|100000" };
 
                 var response = await indexClient.Documents.SearchAsync<MarchMadnessTweet>("in", sp);
+                
 
                 foreach (var searchResult in response.Results)
                 {

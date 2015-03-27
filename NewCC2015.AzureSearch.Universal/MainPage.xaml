@@ -14,94 +14,186 @@
         <vm:MainViewModel />
     </Page.DataContext>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Background="Purple"
+    <SplitView IsPaneOpen="True"
+               Background="White"
+               DisplayMode="Inline">
+        <SplitView.Pane>
+            <StackPanel RequestedTheme="Dark" Background="#FF0072C6">
+                <Image Source="https://pbs.twimg.com/profile_images/546024114272468993/W9gT7hZo.png" Width="100" HorizontalAlignment="Center" />
+
+                <SearchBox x:Name="txtSearch" VerticalAlignment="Top" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 20 20 0"
+		                       Grid.Column="0" PlaceholderText="enter a search string" Tapped="txtSearch_Tapped" />
+
+                <TextBlock Text="{Binding SearchResult}" Foreground="White" FontStyle="Italic" Margin="20 0 20 20" />
+
+                <ScrollViewer>
+                    <StackPanel Margin="20">
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding SearchableFields}" Header="Search Filter"
+		                      SelectedItem="{Binding SearchField, Mode=TwoWay}" >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <Border BorderThickness="0 0 0 1"
+                            BorderBrush="White"
+                            Margin="0 20 0 5">
+                            <TextBlock Text="Narrow your search with Facets" Foreground="White" />
+                        </Border>
+
+                        <StackPanel>
+                            <TextBlock FontSize="16" Text="SOURCE" FontWeight="Light" />
+                            <ListBox ItemsSource="{Binding SourceFacets}" SelectedItem="{Binding SourceFacet, Mode=TwoWay}"
+				                    SelectionMode="Single" MaxHeight="200">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Value}" FontSize="12" />
+
+                                            <TextBlock FontSize="12">
+									        <Run Text=" (" />
+									        <Run Text="{Binding Count}" />
+									        <Run Text=")" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock FontSize="16" Text="RETWEETS" FontWeight="Light" />
+                            <ListBox ItemsSource="{Binding RetweetsFacets}" SelectedItem="{Binding RetweetsFacet, Mode=TwoWay}"
+				                    SelectionMode="Single" MaxHeight="200">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="12">
+									        <Run Text="{Binding From}" />
+									        <Run Text=" - " />
+									        <Run Text="{Binding To}" />
+                                            </TextBlock>
+
+                                            <TextBlock FontSize="12">
+									        <Run Text=" (" />
+									        <Run Text="{Binding Count}" />
+									        <Run Text=")" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock FontSize="16" Text="FOLLOWERS" FontWeight="Light" />
+                            <ListBox ItemsSource="{Binding FollowersFacets}" SelectedItem="{Binding FollowersFacet, Mode=TwoWay}"
+				                    SelectionMode="Single" MaxHeight="200">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="12">
+									        <Run Text="{Binding From}" />
+									        <Run Text=" - " />
+									        <Run Text="{Binding To}" />
+                                            </TextBlock>
+
+                                            <TextBlock FontSize="12">
+									        <Run Text=" (" />
+									        <Run Text="{Binding Count}" />
+									        <Run Text=")" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock FontSize="16" Text="FOLLOWING" FontWeight="Light" />
+                            <ListBox ItemsSource="{Binding FollowingFacets}" SelectedItem="{Binding FollowingFacet, Mode=TwoWay}"
+				                    SelectionMode="Single" MaxHeight="200">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="12">
+									        <Run Text="{Binding From}" />
+									        <Run Text=" - " />
+									        <Run Text="{Binding To}" />
+                                            </TextBlock>
+
+                                            <TextBlock FontSize="12">
+									        <Run Text=" (" />
+									        <Run Text="{Binding Count}" />
+									        <Run Text=")" />
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+        </SplitView.Pane>
+        <SplitView.Content>
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Background="#FF4F4F4F"
                     Grid.Row="0">
-            <TextBlock Text="Mobilizing your applications with Azure Search"
+                    <TextBlock Text="Mobilizing your applications with Azure Search"
                        FontSize="32"
                        Foreground="White"
                        Padding="20"
                        FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
-        </StackPanel>
+                </StackPanel>
 
-        <Grid Grid.Row="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <SearchBox x:Name="txtSearch" QueryText="{Binding SearchString, Mode=TwoWay}" Grid.Column="0" PlaceholderText="test" VerticalAlignment="Center" Tapped="txtSearch_Tapped">
-                </SearchBox>
-
-                <ComboBox Grid.Column="1" PlaceholderText="Filter" ItemsSource="{Binding Filters}" SelectedItem="{Binding Filter, Mode=TwoWay}" >
-                    <ComboBox.ItemTemplate>
+                <GridView x:Name="lstTweets" Grid.Row="1" ItemsSource="{Binding Tweets}" HorizontalAlignment="Left" Margin="20">
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Label}" Tag="{Binding Value}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
-
-            <TextBlock Grid.Row="1" Text="{Binding SearchResult}" FontStyle="Italic" Margin="0 0 0 10" />
-
-            <GridView x:Name="lstTweets" Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Tweets}" HorizontalAlignment="Left">
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="Margin" Value="5" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="LightGray" BorderThickness="1" Width="350" Height="210">
-                            <StackPanel Margin="10" HorizontalAlignment="Left" Background="White" VerticalAlignment="Stretch">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding ProfileImageUrl}" Width="60" Height="60" HorizontalAlignment="Left" />
-	                                <StackPanel>
-		                                <TextBlock Text="{Binding ScreenName}" FontSize="20" Foreground="Black" Margin="20 0 0 5" />
-                                        <TextBlock Text="{Binding CreatedAt}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
+                            <Border BorderBrush="LightGray" BorderThickness="1" Width="300" Height="210">
+                                <StackPanel Margin="10" HorizontalAlignment="Left" Background="White" VerticalAlignment="Stretch">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ProfileImageUrl}" Width="60" Height="60" HorizontalAlignment="Left" />
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding ScreenName}" FontSize="20" Foreground="Black" Margin="20 0 0 5" />
+                                            <TextBlock Text="{Binding CreatedAt}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
+                                        </StackPanel>
                                     </StackPanel>
+
+                                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="16" Foreground="Black" />
+
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="TWEETS" FontSize="14" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" />
+                                        <TextBlock Text="{Binding Statuses}" Grid.Row="1" Grid.Column="0" />
+                                        <TextBlock Text="FOLLOWING" FontSize="14" Grid.Row="0" Grid.Column="1" Foreground="DarkGray" />
+                                        <TextBlock Text="{Binding Following}" Grid.Row="1" Grid.Column="1" />
+                                        <TextBlock Text="FOLLOWERS" FontSize="14" Grid.Row="0" Grid.Column="2" Foreground="DarkGray" />
+                                        <TextBlock Text="{Binding Followers}" Grid.Row="1" Grid.Column="2" />
+                                    </Grid>
                                 </StackPanel>
-
-                                <TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="16" Foreground="Black" />
-
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="TWEETS" FontSize="14" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" />
-                                    <TextBlock Text="{Binding Statuses}" Grid.Row="1" Grid.Column="0" />
-                                    <TextBlock Text="FOLLOWING" FontSize="14" Grid.Row="0" Grid.Column="1" Foreground="DarkGray" />
-                                    <TextBlock Text="{Binding Following}" Grid.Row="1" Grid.Column="1" />
-                                    <TextBlock Text="FOLLOWERS" FontSize="14" Grid.Row="0" Grid.Column="2" Foreground="DarkGray" />
-                                    <TextBlock Text="{Binding Followers}" Grid.Row="1" Grid.Column="2" />
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Grid>
-    </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
 </Page>
