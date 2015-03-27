@@ -12,6 +12,7 @@
             <x:String x:Key="SearchApiKey">19AC47D23B0F0826EE32F4B8E950B235</x:String>
             
             <c:StringToColorConverter x:Key="StringToColorConverter" />
+            <c:DecimalToPercentageConverter x:Key="DecimalToPercentageConverter" />
         </ResourceDictionary>
     </Application.Resources>
     

@@ -33,11 +33,11 @@
       EntryPoint="NewCC2015.AzureSearch.Universal.App">
       <uap:VisualElements
         DisplayName="NewCC2015.AzureSearch.Universal"
-        Square150x150Logo="Assets\Logo.png"
-        Square44x44Logo="Assets\SmallLogo.png"
+        Square150x150Logo="Assets\Azure.png"
+        Square44x44Logo="Assets\Azure.png"
         Description="NewCC2015.AzureSearch.Universal"
         ForegroundText="light"
-        BackgroundColor="#464646">
+        BackgroundColor="#0072C6">
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

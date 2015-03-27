@@ -2,7 +2,6 @@
     x:Class="NewCC2015.AzureSearch.Universal.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:NewCC2015.AzureSearch.Universal"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:NewCC2015.AzureSearch.Universal.ViewModel"
@@ -18,17 +17,28 @@
                Background="White"
                DisplayMode="Inline">
         <SplitView.Pane>
-            <StackPanel RequestedTheme="Dark" Background="#FF0072C6">
-                <Image Source="https://pbs.twimg.com/profile_images/546024114272468993/W9gT7hZo.png" Width="100" HorizontalAlignment="Center" />
+            <Grid RequestedTheme="Dark" Background="#FF0072C6">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                <SearchBox x:Name="txtSearch" VerticalAlignment="Top" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 20 20 0"
-		                       Grid.Column="0" PlaceholderText="enter a search string" Tapped="txtSearch_Tapped" />
+                <StackPanel Grid.Row="0">
+                    <Image Source="Assets/Azure.png" Width="100"
+                           HorizontalAlignment="Center" />
 
-                <TextBlock Text="{Binding SearchResult}" Foreground="White" FontStyle="Italic" Margin="20 0 20 20" />
+                    <SearchBox x:Name="txtSearch" VerticalAlignment="Top" IsValidationIndicatorEnabled="True" QueryText="{Binding SearchString, Mode=TwoWay}" Margin="20 0 20 0"
+                               PlaceholderText="enter a search string" Tapped="txtSearch_Tapped" />
 
-                <ScrollViewer>
+                    <StackPanel Margin="20 0 20 0">
+                        <TextBlock Text="{Binding SearchResult}" Foreground="White" FontStyle="Italic" />
+                        <TextBlock Text="{Binding SearchExecutionTime}" Foreground="White" />
+                    </StackPanel>
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1">
                     <StackPanel Margin="20">
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding SearchableFields}" Header="Search Filter"
+                        <ComboBox ItemsSource="{Binding SearchableFields}" Header="Search by:"
 		                      SelectedItem="{Binding SearchField, Mode=TwoWay}" >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -37,11 +47,14 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <Border BorderThickness="0 0 0 1"
-                            BorderBrush="White"
-                            Margin="0 20 0 5">
-                            <TextBlock Text="Narrow your search with Facets" Foreground="White" />
-                        </Border>
+                        <Grid Margin="0 20 0 20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="Apply Filters" Margin="0 0 2.5 0" HorizontalAlignment="Stretch" Tapped="btnApplyFilters_Tapped" />
+                            <Button Grid.Column="1" Content="Clear" Margin="2.5 0 0 0" HorizontalAlignment="Stretch" Tapped="btnClearFilters_Tapped" />
+                        </Grid>
 
                         <StackPanel>
                             <TextBlock FontSize="16" Text="SOURCE" FontWeight="Light" />
@@ -133,7 +146,7 @@
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-            </StackPanel>
+            </Grid>
         </SplitView.Pane>
         <SplitView.Content>
             <Grid Background="White">
@@ -145,9 +158,9 @@
                     Grid.Row="0">
                     <TextBlock Text="Mobilizing your applications with Azure Search"
                        FontSize="32"
+                       FontWeight="Light"
                        Foreground="White"
-                       Padding="20"
-                       FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
+                       Padding="20" />
                 </StackPanel>
 
                 <GridView x:Name="lstTweets" Grid.Row="1" ItemsSource="{Binding Tweets}" HorizontalAlignment="Left" Margin="20">
@@ -158,17 +171,18 @@
                     </GridView.ItemContainerStyle>
                     <GridView.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="LightGray" BorderThickness="1" Width="300" Height="210">
+                            <Border BorderBrush="#FF0072C6" BorderThickness="1" Width="300" Height="230">
                                 <StackPanel Margin="10" HorizontalAlignment="Left" Background="White" VerticalAlignment="Stretch">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding ProfileImageUrl}" Width="60" Height="60" HorizontalAlignment="Left" />
+                                        <Image Source="{Binding Document.ProfileImageUrl}" Width="60" Height="60" HorizontalAlignment="Left" />
                                         <StackPanel>
-                                            <TextBlock Text="{Binding ScreenName}" FontSize="20" Foreground="Black" Margin="20 0 0 5" />
-                                            <TextBlock Text="{Binding CreatedAt}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
+                                            <TextBlock Text="{Binding Document.ScreenName}" FontSize="20" Foreground="Black" Margin="20 0 0 5" />
+                                            <TextBlock Text="{Binding Document.CreatedAt}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
+                                            <TextBlock Text="{Binding Score, Converter={StaticResource DecimalToPercentageConverter}}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
                                         </StackPanel>
                                     </StackPanel>
 
-                                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="16" Foreground="Black" />
+                                    <TextBlock Text="{Binding Document.Text}" TextWrapping="Wrap" FontSize="16" Foreground="Black" />
 
                                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                                         <Grid.RowDefinitions>
@@ -182,17 +196,19 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="TWEETS" FontSize="14" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" />
-                                        <TextBlock Text="{Binding Statuses}" Grid.Row="1" Grid.Column="0" />
+                                        <TextBlock Text="{Binding Document.Statuses}" Grid.Row="1" Grid.Column="0" />
                                         <TextBlock Text="FOLLOWING" FontSize="14" Grid.Row="0" Grid.Column="1" Foreground="DarkGray" />
-                                        <TextBlock Text="{Binding Following}" Grid.Row="1" Grid.Column="1" />
+                                        <TextBlock Text="{Binding Document.Following}" Grid.Row="1" Grid.Column="1" />
                                         <TextBlock Text="FOLLOWERS" FontSize="14" Grid.Row="0" Grid.Column="2" Foreground="DarkGray" />
-                                        <TextBlock Text="{Binding Followers}" Grid.Row="1" Grid.Column="2" />
+                                        <TextBlock Text="{Binding Document.Followers}" Grid.Row="1" Grid.Column="2" />
                                     </Grid>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
+
+                <ProgressRing Grid.Row="1" IsActive="{Binding IsBusy}" Foreground="#FF0072C6" Width="75" Height="75" />
             </Grid>
         </SplitView.Content>
     </SplitView>

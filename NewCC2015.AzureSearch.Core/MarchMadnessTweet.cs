@@ -20,9 +20,9 @@ namespace NewCC2015.AzureSearch.Core
 
         public string TimeZone { get; set; }
 
-        public long Followers { get; set; }
+        public long? Followers { get; set; }
 
-        public long Following { get; set; }
+        public long? Following { get; set; }
 
         public long? Retweets { get; set; }
 

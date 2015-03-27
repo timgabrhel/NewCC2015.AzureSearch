@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Foundation.Collections;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Controls;
 using GabrhelDigital.Universal.Core.Binding;
 using Microsoft.Azure.Search.Models;
 using NewCC2015.AzureSearch.Core;
@@ -18,7 +20,7 @@ namespace NewCC2015.AzureSearch.Universal.ViewModel
 {
     public class MainViewModel : BindableBase
     {
-        private ObservableCollection<MarchMadnessTweet> _tweets;
+        private ObservableCollection<SearchResult<MarchMadnessTweet>> _tweets;
         private string _searchString;
         private string _searchField;
         private ObservableCollection<Facet> _sourceFacets;
@@ -29,8 +31,22 @@ namespace NewCC2015.AzureSearch.Universal.ViewModel
         private Facet _retweetsFacet;
         private Facet _followersFacet;
         private Facet _followingFacet;
+        private bool _isBusy;
+        private string _searchExecutionTime;
 
-        public ObservableCollection<MarchMadnessTweet> Tweets
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
+
+        public string SearchExecutionTime
+        {
+            get { return _searchExecutionTime; }
+            set { SetProperty(ref _searchExecutionTime, value); }
+        }
+
+        public ObservableCollection<SearchResult<MarchMadnessTweet>> Tweets
         {
             get { return _tweets; }
             set { SetProperty(ref _tweets, value); }
@@ -104,34 +120,72 @@ namespace NewCC2015.AzureSearch.Universal.ViewModel
             get { return _followingFacet; }
             set { SetProperty(ref _followingFacet, value); }
         }
-
-
+        
         public ICommand SearchCommand { get; private set; }
+
+        public ICommand ClearFiltersCommand { get; private set; }
 
         public MainViewModel()
         {
             SearchCommand = new RelayCommand(Search);
+            ClearFiltersCommand = new RelayCommand(ClearFilters);
             SearchField = "text";
         }
 
         private void Search()
         {
+            IsBusy = true;
             var client = new AzureSearchClient();
 
+            // after we load the search results & set the facet collections, two way binding will clear the currently selected facet.
+            // we'll store these temporarily and reapply them later
+            var sourceFacet = SourceFacet;
+            var retweetsFacet = RetweetsFacet;
+            var followingFacet = FollowingFacet;
+            var followersFacet = FollowersFacet;
+
+
             DocumentSearchResponse<MarchMadnessTweet> result = null;
+            var executionTime = string.Empty;
             
-            Task.Run(async () =>
+            Task.Run(async delegate
             {
-                result = await client.Search<MarchMadnessTweet>(SearchString, null, SearchField);
+                var start = DateTime.Now;
+                result = await client.Search<MarchMadnessTweet>(SearchString, SearchField, SourceFacet, RetweetsFacet, FollowingFacet, FollowersFacet);
+                var end = DateTime.Now;
+
+                executionTime = (end.Subtract(start)).TotalMilliseconds.ToString("#####.##") + " milliseconds";
             }).Wait();
-            
-            Tweets = result.Results.Select(r => r.Document).ToObservableCollection();
-            SourceFacets = result.Facets["source"].ToObservableCollection();
-            RetweetsFacets = result.Facets["retweets"].ToObservableCollection();
-            FollowingFacets = result.Facets["following"].ToObservableCollection();
-            FollowersFacets = result.Facets["followers"].ToObservableCollection();
+
+            SearchExecutionTime = executionTime;
+            Tweets = result.Results.ToObservableCollection();
+            SourceFacets = result.Facets["source"].Where(f => f.Count > 0).ToObservableCollection();
+            RetweetsFacets = result.Facets["retweets"].Where(f => f.Count > 0).ToObservableCollection();
+            FollowingFacets = result.Facets["following"].Where(f => f.Count > 0).ToObservableCollection();
+            FollowersFacets = result.Facets["followers"].Where(f => f.Count > 0).ToObservableCollection();
+
+            SourceFacet = sourceFacet;
+            RetweetsFacet = retweetsFacet;
+            FollowingFacet = followingFacet;
+            FollowersFacet = followersFacet;
 
             OnPropertyChanged("SearchResult");
+
+            IsBusy = false;
+        }
+
+        private void ClearFilters()
+        {
+            IsBusy = true;
+
+            SourceFacet = null;
+            RetweetsFacet = null;
+            FollowingFacet = null;
+            FollowersFacet = null;
+
+            Search();
+
+            IsBusy = false;
         }
     }
 }
