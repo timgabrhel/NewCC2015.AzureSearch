@@ -210,6 +210,7 @@ namespace NewCC2015.AzureSearch.Universal.ViewModel
             // create our search client
             var client = new AzureSearchClient();
 
+            // get the results
             var result = await client.Suggest<MarchMadnessTweet>(SearchString);
 
             IsBusy = false;

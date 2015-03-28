@@ -91,21 +91,21 @@ namespace NewCC2015.AzureSearch.Universal
 
         private async void SearchBox_SuggestionsRequested(SearchBox sender, SearchBoxSuggestionsRequestedEventArgs args)
         {
-            //http://azure.microsoft.com/blog/2015/01/20/azure-search-how-to-add-suggestions-auto-complete-to-your-search-applications/
-            // require at least 3 characters
-            // http://stackoverflow.com/questions/20092587/win-8-1-searchbox-binding-suggestions
-
             var viewModel = DataContext as MainViewModel;
             if (viewModel == null) return;
 
-            if (viewModel.SearchString == null || viewModel.SearchString.Length < 3) return;
+            // make sure the search string isn't null, less than 3 chars, or more than 100 chars.
+            // the minimum of 3 will help with suggestion api performance. it also has a hard limit of 100 chars
+            if (viewModel.SearchString == null || viewModel.SearchString.Length < 3 || viewModel.SearchString.Length > 100) return;
 
             var deferral = args.Request.GetDeferral();
 
             try
             {
+                // get the suggestions
                 var suggestions = await viewModel.SearchSuggest();
 
+                // append all suggestions to the search box suggestions box
                 args.Request.SearchSuggestionCollection.AppendQuerySuggestions(suggestions.Select(s => s.Text));
                 args.Request.SearchSuggestionCollection.AppendSearchSeparator("Top Tweeters");
 

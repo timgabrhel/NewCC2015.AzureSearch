@@ -32,11 +32,9 @@ namespace NewCC2015.AzureSearch.Universal
         public async Task<DocumentSearchResponse<T>> Search<T>(string searchText, string field, Facet sourceFacet, Facet retweetsFacet, Facet followingFacet, Facet followersFacet) where T : class
         {
             // client to work against the index
-            // asc1
             var indexClient = searchClient.Indexes.GetClient(searchIndex);
 
             // build the filter string based on any selected facets
-            //asc2
             var filter = new StringBuilder();
 
             if (sourceFacet != null)
@@ -87,7 +85,6 @@ namespace NewCC2015.AzureSearch.Universal
             }
 
             // create the search object including the field(s) to search, filter, etc.
-            //asc3
             var sp = new SearchParameters
             {
                 //Select = The fields to return. Defaults to all defined in schema
@@ -95,6 +92,13 @@ namespace NewCC2015.AzureSearch.Universal
 
                 // Field(s) we want to search against. 
                 SearchFields = new[] { field },
+
+                // Highlight the text in the result that was matched by the search string
+                HighlightFields = new[] { field },
+
+                // pre & post fix the highlighted text with these elements
+                HighlightPreTag = "",
+                HighlightPostTag = "",
 
                 // by passing delimited values, search will return item counts within reach range for each facet.
                 // because source is a string field, each unique value with count will be displayed.
@@ -108,23 +112,26 @@ namespace NewCC2015.AzureSearch.Universal
             };
 
             // apply the filter if one exists. this cannot be empty.
-            //asc4
             if (filter.Length > 0)
             {
                 sp.Filter = filter.ToString();
             }
             
             // execute the search request
-            //asc5
             return await indexClient.Documents.SearchAsync<T>(searchText, sp);
-            throw new NotImplementedException();
         }
 
         public async Task<DocumentSuggestResponse<T>> Suggest<T>(string searchText) where T : class 
         {
             var indexClient = searchClient.Indexes.GetClient(searchIndex);
 
-            return await indexClient.Documents.SuggestAsync<T>(searchText, "textSuggester", new SuggestParameters() { UseFuzzyMatching = true, OrderBy = new [] {"followers desc"}});
+            // pass the search text, the name of the suggester defined in the index
+            return await indexClient.Documents.SuggestAsync<T>(searchText, "textSuggester",
+                new SuggestParameters()
+                {
+                    UseFuzzyMatching = true,
+                    OrderBy = new[] {"followers desc"}
+                });
         }
 
         private void ConditionalAppendAnd(StringBuilder sb)

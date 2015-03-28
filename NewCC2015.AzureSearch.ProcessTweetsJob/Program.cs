@@ -29,8 +29,8 @@ namespace NewCC2015.AzureSearch.ProcessTweetsJob
         {
             try
             {
-                // ptj1
-
+                var indexClient = searchClient.Indexes.GetClient(searchIndex);
+                await indexClient.Documents.IndexAsync(IndexBatch.Create(IndexAction.Create(IndexActionType.MergeOrUpload, tweet)));
             }
             catch (IndexBatchException ex)
             {

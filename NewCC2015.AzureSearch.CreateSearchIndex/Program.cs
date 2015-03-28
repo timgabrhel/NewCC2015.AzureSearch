@@ -11,9 +11,6 @@ namespace NewCC2015.AzureSearch.CreateSearchIndex
 {
     class Program
     {
-        // csi0 - app settings
-
-        // csi1
         private static readonly string searchServiceName = ConfigurationManager.AppSettings["SearchServiceName"];
         private static readonly string searchIndex = ConfigurationManager.AppSettings["SearchIndexName"];
         private static readonly string searchApiKey = ConfigurationManager.AppSettings["SearchApiKey"];
@@ -30,13 +27,11 @@ namespace NewCC2015.AzureSearch.CreateSearchIndex
 
         static async Task DropAndCreateIndex()
         {
-            // csi2
             if (await searchClient.Indexes.ExistsAsync(searchIndex))
             {
                 //await searchClient.Indexes.DeleteAsync(searchIndex);
             }
 
-            // csi3
             var index = new Index()
             {
                 Name = searchIndex,
@@ -65,8 +60,7 @@ namespace NewCC2015.AzureSearch.CreateSearchIndex
                     }
                 }
             };
-
-            // csi4
+            
             await searchClient.Indexes.CreateOrUpdateAsync(index);
         }
     }

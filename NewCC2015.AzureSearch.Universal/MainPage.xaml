@@ -184,7 +184,6 @@
                                         <StackPanel>
                                             <TextBlock Text="{Binding Document.ScreenName}" FontSize="20" Foreground="Black" Margin="20 0 0 5" />
                                             <TextBlock Text="{Binding Document.CreatedAt}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
-                                            <TextBlock Text="{Binding Score, Converter={StaticResource DecimalToPercentageConverter}}" FontSize="14" Foreground="DarkGray" Margin="20 0 0 0" />
                                         </StackPanel>
                                     </StackPanel>
 
